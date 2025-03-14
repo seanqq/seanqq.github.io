@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeFlow - Вход</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <header class="main-header">
+        <h1>TimeFlow</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="request.html">Заявки</a>
+            <a href="admin.html" id="adminLink" style="display: none;">Админ</a>
+            <a href="login.html" id="loginLink">Войти</a>
+            <a href="#" id="logoutLink" style="display: none;">Выйти</a>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <h2>Вход / Регистрация</h2>
+        <form id="authForm" class="glass-form">
+            <input type="text" id="username" placeholder="Логин" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="submit" class="btn neon-btn" id="loginBtn">Войти</button>
+            <button type="button" class="btn neon-btn" id="registerBtn">Регистрация</button>
+        </form>
+        <p id="authMessage" class="message"></p>
+    </section>
+
+    <footer>
+        <p>© 2025 TimeFlow. Создано с любовью.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
