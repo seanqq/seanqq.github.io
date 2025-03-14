@@ -11,6 +11,36 @@ body {
     overflow-x: hidden;
 }
 
+.main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(10, 10, 20, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.main-header h1 {
+    font-size: 1.8em;
+    font-weight: 800;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #00ddeb;
+}
+
 .hero {
     height: 100vh;
     background: url('images/hero-bg.jpg') no-repeat center/cover;
@@ -31,21 +61,20 @@ body {
     z-index: 1;
 }
 
-header {
+.hero-content {
     position: relative;
     z-index: 2;
-    animation: slideIn 1.5s ease-out;
+    animation: slideDown 1.5s ease-out;
 }
 
-@keyframes slideIn {
+@keyframes slideDown {
     from { transform: translateY(-100px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
-h1 {
-    font-size: 4em;
-    font-weight: 800;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
 p {
@@ -71,22 +100,18 @@ p {
     box-shadow: 0 10px 20px rgba(0, 125, 255, 0.4);
 }
 
-.features {
+.features, .request-section, .admin-section {
     padding: 100px 50px;
     background: #16213e;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
 }
 
-.feature-card {
-    width: 30%;
-    min-width: 300px;
+.feature-card, .request-section form, .admin-section form, #adminPanel {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 30px;
-    margin: 20px;
+    margin: 20px auto;
+    max-width: 600px;
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -97,25 +122,13 @@ p {
     transform: translateY(-10px);
 }
 
-.feature-card h2 {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-}
-
-.feature-card p {
-    font-size: 1.1em;
-    color: #e0e0e0;
-}
-
-/* Стили для форм и списков */
 form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-top: 20px;
 }
 
-input {
+input, select {
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -124,14 +137,14 @@ input {
     font-size: 1em;
 }
 
-input::placeholder {
+input::placeholder, select {
     color: #ccc;
 }
 
 ul {
     list-style: none;
     margin-top: 20px;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
 }
 
@@ -146,7 +159,6 @@ footer {
     text-align: center;
     padding: 30px;
     background: #0f0f1a;
-    font-size: 1em;
 }
 
 /* Анимация появления */
