@@ -5,40 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeFlow - Главная</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="particles-js"></div>
     <header class="main-header">
         <h1>TimeFlow</h1>
         <nav>
             <a href="index.html">Главная</a>
-            <a href="request.html">Подача заявки</a>
-            <a href="admin.html">Админ</a>
+            <a href="request.html">Заявки</a>
+            <a href="admin.html" id="adminLink" style="display: none;">Админ</a>
+            <a href="login.html" id="loginLink">Войти</a>
+            <a href="#" id="logoutLink" style="display: none;">Выйти</a>
         </nav>
     </header>
 
     <div class="hero">
         <div class="overlay"></div>
         <div class="hero-content">
-            <h2>Система учета рабочего времени</h2>
-            <p>Отслеживайте время, отпуска и графики</p>
-            <a href="#features" class="btn">Начать</a>
+            <h2>TimeFlow</h2>
+            <p>Будущее учета времени</p>
+            <a href="#features" class="btn neon-btn">Начать</a>
         </div>
     </div>
 
     <section id="features" class="features">
-        <div class="feature-card" data-aos="fade-up">
+        <div class="feature-card" data-aos="zoom-in">
             <h2>Учет времени</h2>
+            <p id="userGreeting" style="display: none;">Привет, <span id="currentUser"></span>!</p>
             <p>Текущее время: <span id="timer">00:00:00</span></p>
-            <button id="startStopBtn" class="btn">Начать работу</button>
-            <ul id="timeLog"></ul>
+            <button id="startStopBtn" class="btn neon-btn" disabled>Начать работу</button>
+            <ul id="timeLog" class="scroll-list"></ul>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 TimeFlow. Все права защищены.</p>
+        <p>© 2025 TimeFlow. Создано с любовью.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
