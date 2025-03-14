@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeFlow - Админ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <h1>TimeFlow</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="request.html">Подача заявки</a>
+            <a href="admin.html">Админ</a>
+        </nav>
+    </header>
+
+    <section class="admin-section">
+        <h2>Админ-панель</h2>
+        <form id="loginForm">
+            <input type="password" id="adminPass" placeholder="Пароль" required>
+            <button type="submit" class="btn">Войти</button>
+        </form>
+        <div id="adminPanel" style="display: none;">
+            <h3>Заявки</h3>
+            <ul id="requestList"></ul>
+            <h3>Лог времени</h3>
+            <ul id="adminTimeLog"></ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 TimeFlow. Все права защищены.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
