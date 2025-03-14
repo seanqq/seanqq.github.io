@@ -1,15 +1,67 @@
-// Инициализация БД (имитация через localStorage)
+// Частицы
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#00ddeb" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#00ddeb", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out" }
+    },
+    interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+    },
+    retina_detect: true
+});
+
+// БД
 let db = JSON.parse(localStorage.getItem("timeFlowDB")) || {
+    users: [{ username: "admin", password: "admin123", isAdmin: true }],
     timeLogs: [],
     requests: []
 };
+function saveDB() { localStorage.setItem("timeFlowDB", JSON.stringify(db)); }
 
-// Сохранение в "БД"
-function saveDB() {
-    localStorage.setItem("timeFlowDB", JSON.stringify(db));
+// Авторизация
+let currentUser = null;
+
+function updateUI() {
+    const loginLink = document.getElementById("loginLink");
+    const logoutLink = document.getElementById("logoutLink");
+    const adminLink = document.getElementById("adminLink");
+
+    if (currentUser) {
+        loginLink.style.display = "none";
+        logoutLink.style.display = "inline";
+        if (currentUser.isAdmin) adminLink.style.display = "inline";
+        if (document.getElementById("currentUser")) {
+            document.getElementById("currentUser").textContent = currentUser.username;
+            document.getElementById("userGreeting").style.display = "block";
+            document.getElementById("startStopBtn").disabled = false;
+        }
+        if (document.getElementById("requestForm")) {
+            document.getElementById("requestForm").style.display = "block";
+            document.getElementById("loginPrompt").style.display = "none";
+            document.getElementById("employeeName").value = currentUser.username;
+        }
+        if (document.getElementById("adminPanel") && currentUser.isAdmin) {
+            document.getElementById("adminPanel").style.display = "block";
+            document.getElementById("adminPrompt").style.display = "none";
+        }
+    } else {
+        loginLink.style.display = "inline";
+        logoutLink.style.display = "none";
+        adminLink.style.display = "none";
+        if (document.getElementById("userGreeting")) document.getElementById("userGreeting").style.display = "none";
+        if (document.getElementById("requestForm")) document.getElementById("requestForm").style.display = "none";
+        if (document.getElementById("adminPanel")) document.getElementById("adminPanel").style.display = "none";
+    }
 }
 
-// Учет времени (index.html)
+// Учет времени
 let isWorking = false;
 let startTime;
 
@@ -38,13 +90,13 @@ if (document.getElementById("startStopBtn")) {
         if (!isWorking) {
             startTime = new Date();
             isWorking = true;
-            startStopBtn.textContent = "Закончить работу";
+            startStopBtn.textContent = "Закончить";
             setInterval(updateTimer, 1000);
         } else {
             isWorking = false;
             startStopBtn.textContent = "Начать работу";
             const endTime = new Date();
-            const log = `Работа: ${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()}`;
+            const log = `${currentUser.username}: Работа ${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()}`;
             db.timeLogs.push(log);
             saveDB();
             const li = document.createElement("li");
@@ -55,7 +107,42 @@ if (document.getElementById("startStopBtn")) {
     });
 }
 
-// Подача заявок (request.html)
+// Авторизация/Регистрация
+if (document.getElementById("authForm")) {
+    const authForm = document.getElementById("authForm");
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const authMessage = document.getElementById("authMessage");
+
+    loginBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const user = db.users.find(u => u.username === username && u.password === password);
+        if (user) {
+            currentUser = user;
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            authMessage.textContent = "Успешный вход!";
+            setTimeout(() => window.location.href = "index.html", 1000);
+        } else {
+            authMessage.textContent = "Неверный логин или пароль!";
+        }
+    });
+
+    registerBtn.addEventListener("click", () => {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        if (db.users.find(u => u.username === username)) {
+            authMessage.textContent = "Пользователь уже существует!";
+        } else {
+            db.users.push({ username, password, isAdmin: false });
+            saveDB();
+            authMessage.textContent = "Регистрация успешна! Теперь войдите.";
+        }
+    });
+}
+
+// Заявки
 if (document.getElementById("requestForm")) {
     const requestForm = document.getElementById("requestForm");
     const requestType = document.getElementById("requestType");
@@ -83,70 +170,92 @@ if (document.getElementById("requestForm")) {
         let requestText;
 
         if (type === "vacation") {
-            requestText = `${name}: Отпуск с ${startDate.value} по ${endDate.value}`;
+            requestText = `${name}: Отпуск с ${startDate.value} по ${endDate.value} (Ожидает подтверждения)`;
         } else {
-            requestText = `${name}: Смена ${startDate.value}, ${shiftStart.value} - ${shiftEnd.value}`;
+            requestText = `${name}: Смена ${startDate.value}, ${shiftStart.value} - ${shiftEnd.value} (Ожидает подтверждения)`;
         }
 
         db.requests.push(requestText);
         saveDB();
-        document.getElementById("requestMessage").textContent = "Заявка отправлена!";
+        document.getElementById("requestMessage").textContent = "Заявка отправлена на подтверждение!";
         requestForm.reset();
         setTimeout(() => document.getElementById("requestMessage").textContent = "", 3000);
     });
 }
 
-// Админ-панель (admin.html)
-if (document.getElementById("loginForm")) {
-    const loginForm = document.getElementById("loginForm");
+// Админ
+if (document.getElementById("adminPanel")) {
     const adminPanel = document.getElementById("adminPanel");
     const requestList = document.getElementById("requestList");
     const adminTimeLog = document.getElementById("adminTimeLog");
-    const adminPass = "admin123"; // Пароль для админа
+    const userList = document.getElementById("userList");
 
-    loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (document.getElementById("adminPass").value === adminPass) {
-            loginForm.style.display = "none";
-            adminPanel.style.display = "block";
+    if (currentUser && currentUser.isAdmin) {
+        adminPanel.style.display = "block";
+        document.getElementById("adminPrompt").style.display = "none";
 
-            db.requests.forEach(req => {
-                const li = document.createElement("li");
-                li.textContent = req;
-                requestList.appendChild(li);
+        db.requests.forEach((req, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `${req} <button class="btn neon-btn approve-btn" data-index="${index}">Подтвердить</button>`;
+            requestList.appendChild(li);
+        });
+
+        db.timeLogs.forEach(log => {
+            const li = document.createElement("li");
+            li.textContent = log;
+            adminTimeLog.appendChild(li);
+        });
+
+        db.users.forEach(user => {
+            const li = document.createElement("li");
+            li.textContent = `${user.username} ${user.isAdmin ? "(Админ)" : ""}`;
+            userList.appendChild(li);
+        });
+
+        document.querySelectorAll(".approve-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const index = btn.getAttribute("data-index");
+                db.requests[index] = db.requests[index].replace("Ожидает подтверждения", "Подтверждено");
+                saveDB();
+                window.location.reload();
             });
+        });
+    }
+}
 
-            db.timeLogs.forEach(log => {
-                const li = document.createElement("li");
-                li.textContent = log;
-                adminTimeLog.appendChild(li);
-            });
-        } else {
-            alert("Неверный пароль!");
-        }
+// Выход
+if (document.getElementById("logoutLink")) {
+    document.getElementById("logoutLink").addEventListener("click", () => {
+        currentUser = null;
+        localStorage.removeItem("currentUser");
+        window.location.href = "login.html";
     });
 }
 
-// Параллакс и анимации
-window.addEventListener("scroll", () => {
-    const hero = document.querySelector(".hero");
-    if (hero) {
-        let scrollPosition = window.pageYOffset;
-        hero.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
-    }
+// Инициализация
+document.addEventListener("DOMContentLoaded", () => {
+    currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    updateUI();
+
+    window.addEventListener("scroll", () => {
+        const hero = document.querySelector(".hero");
+        if (hero) {
+            let scrollPosition = window.pageYOffset;
+            hero.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+        }
+    });
+
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll("[data-aos]");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("aos-animate");
+                }
+            });
+        }, { threshold: 0.3 });
+
+        elements.forEach((el) => observer.observe(el));
+    };
+    animateOnScroll();
 });
-
-const animateOnScroll = () => {
-    const elements = document.querySelectorAll("[data-aos]");
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("aos-animate");
-            }
-        });
-    }, { threshold: 0.3 });
-
-    elements.forEach((el) => observer.observe(el));
-};
-
-document.addEventListener("DOMContentLoaded", animateOnScroll);
