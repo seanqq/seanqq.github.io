@@ -2,87 +2,60 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Учет рабочего времени</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .topper {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 24px;
-        }
-        nav {
-            background-color: #444;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .animated-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .animated-btn:hover {
-            background-color: #45a049;
-        }
-        .blur-bg {
-            backdrop-filter: blur(10px);
-        }
-        input[type="text"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeFlow - Учет рабочего времени</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="topper">Система учета рабочего времени</div>
-    <nav>
-        <a href="index.php">Рабочее время</a> | 
-        <a href="vacations.php">Отпуска</a> | 
-        <a href="schedules.php">Графики</a> | 
-        <a href="admin.php">Админка</a> |
-        <a href="logout.php">Выход</a>
-    </nav>
-    </body>
+    <div class="hero">
+        <div class="overlay"></div>
+        <header>
+            <h1>TimeFlow</h1>
+            <p>Система учета рабочего времени нового уровня</p>
+            <a href="#features" class="btn">Начать</a>
+        </header>
+    </div>
+
+    <section id="features" class="features">
+        <!-- Отслеживание времени -->
+        <div class="feature-card" data-aos="fade-up">
+            <h2>Учет времени</h2>
+            <p>Текущее время: <span id="timer">00:00:00</span></p>
+            <button id="startStopBtn" class="btn">Начать работу</button>
+            <ul id="timeLog"></ul>
+        </div>
+
+        <!-- Учет отпусков -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+            <h2>Отпуска</h2>
+            <form id="vacationForm">
+                <input type="text" id="employeeName" placeholder="Имя сотрудника" required>
+                <input type="date" id="startDate" required>
+                <input type="date" id="endDate" required>
+                <button type="submit" class="btn">Подать заявку</button>
+            </form>
+            <ul id="vacationList"></ul>
+        </div>
+
+        <!-- Графики -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+            <h2>Графики</h2>
+            <form id="scheduleForm">
+                <input type="text" id="shiftEmployee" placeholder="Имя сотрудника" required>
+                <input type="date" id="shiftDate" required>
+                <input type="time" id="shiftStart" required>
+                <input type="time" id="shiftEnd" required>
+                <button type="submit" class="btn">Добавить смену</button>
+            </form>
+            <ul id="scheduleList"></ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 TimeFlow. Все права защищены.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
