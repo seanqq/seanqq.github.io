@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeFlow - Подача заявки</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <h1>TimeFlow</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="request.html">Подача заявки</a>
+            <a href="admin.html">Админ</a>
+        </nav>
+    </header>
+
+    <section class="request-section">
+        <h2>Подача заявки</h2>
+        <form id="requestForm">
+            <input type="text" id="employeeName" placeholder="Имя сотрудника" required>
+            <select id="requestType" required>
+                <option value="" disabled selected>Тип заявки</option>
+                <option value="vacation">Отпуск</option>
+                <option value="shift">Смена графика</option>
+            </select>
+            <input type="date" id="startDate" required>
+            <input type="date" id="endDate">
+            <input type="time" id="shiftStart" style="display: none;">
+            <input type="time" id="shiftEnd" style="display: none;">
+            <button type="submit" class="btn">Отправить</button>
+        </form>
+        <p id="requestMessage"></p>
+    </section>
+
+    <footer>
+        <p>© 2025 TimeFlow. Все права защищены.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
