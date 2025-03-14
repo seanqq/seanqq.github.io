@@ -3,52 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeFlow - Учет рабочего времени</title>
+    <title>TimeFlow - Главная</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="main-header">
+        <h1>TimeFlow</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="request.html">Подача заявки</a>
+            <a href="admin.html">Админ</a>
+        </nav>
+    </header>
+
     <div class="hero">
         <div class="overlay"></div>
-        <header>
-            <h1>TimeFlow</h1>
-            <p>Система учета рабочего времени нового уровня</p>
+        <div class="hero-content">
+            <h2>Система учета рабочего времени</h2>
+            <p>Отслеживайте время, отпуска и графики</p>
             <a href="#features" class="btn">Начать</a>
-        </header>
+        </div>
     </div>
 
     <section id="features" class="features">
-        <!-- Отслеживание времени -->
         <div class="feature-card" data-aos="fade-up">
             <h2>Учет времени</h2>
             <p>Текущее время: <span id="timer">00:00:00</span></p>
             <button id="startStopBtn" class="btn">Начать работу</button>
             <ul id="timeLog"></ul>
-        </div>
-
-        <!-- Учет отпусков -->
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-            <h2>Отпуска</h2>
-            <form id="vacationForm">
-                <input type="text" id="employeeName" placeholder="Имя сотрудника" required>
-                <input type="date" id="startDate" required>
-                <input type="date" id="endDate" required>
-                <button type="submit" class="btn">Подать заявку</button>
-            </form>
-            <ul id="vacationList"></ul>
-        </div>
-
-        <!-- Графики -->
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
-            <h2>Графики</h2>
-            <form id="scheduleForm">
-                <input type="text" id="shiftEmployee" placeholder="Имя сотрудника" required>
-                <input type="date" id="shiftDate" required>
-                <input type="time" id="shiftStart" required>
-                <input type="time" id="shiftEnd" required>
-                <button type="submit" class="btn">Добавить смену</button>
-            </form>
-            <ul id="scheduleList"></ul>
         </div>
     </section>
 
