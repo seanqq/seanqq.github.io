@@ -1,9 +1,17 @@
-// Отслеживание времени
+// Инициализация БД (имитация через localStorage)
+let db = JSON.parse(localStorage.getItem("timeFlowDB")) || {
+    timeLogs: [],
+    requests: []
+};
+
+// Сохранение в "БД"
+function saveDB() {
+    localStorage.setItem("timeFlowDB", JSON.stringify(db));
+}
+
+// Учет времени (index.html)
 let isWorking = false;
 let startTime;
-const timerDisplay = document.getElementById("timer");
-const startStopBtn = document.getElementById("startStopBtn");
-const timeLog = document.getElementById("timeLog");
 
 function updateTimer() {
     if (isWorking) {
@@ -12,70 +20,120 @@ function updateTimer() {
         const hours = String(Math.floor(diff / 3600)).padStart(2, "0");
         const minutes = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
         const seconds = String(diff % 60).padStart(2, "0");
-        timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+        document.getElementById("timer").textContent = `${hours}:${minutes}:${seconds}`;
     }
 }
 
-startStopBtn.addEventListener("click", () => {
-    if (!isWorking) {
-        startTime = new Date();
-        isWorking = true;
-        startStopBtn.textContent = "Закончить работу";
-        setInterval(updateTimer, 1000);
-    } else {
-        isWorking = false;
-        startStopBtn.textContent = "Начать работу";
-        const endTime = new Date();
-        const duration = Math.floor((endTime - startTime) / 1000);
-        const hours = Math.floor(duration / 3600);
-        const minutes = Math.floor((duration % 3600) / 60);
-        const logEntry = document.createElement("li");
-        logEntry.textContent = `Работа: ${hours}ч ${minutes}м (${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()})`;
-        timeLog.appendChild(logEntry);
-        timerDisplay.textContent = "00:00:00";
-    }
-});
+if (document.getElementById("startStopBtn")) {
+    const startStopBtn = document.getElementById("startStopBtn");
+    const timeLog = document.getElementById("timeLog");
 
-// Учет отпусков
-const vacationForm = document.getElementById("vacationForm");
-const vacationList = document.getElementById("vacationList");
+    db.timeLogs.forEach(log => {
+        const li = document.createElement("li");
+        li.textContent = log;
+        timeLog.appendChild(li);
+    });
 
-vacationForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("employeeName").value;
-    const start = document.getElementById("startDate").value;
-    const end = document.getElementById("endDate").value;
+    startStopBtn.addEventListener("click", () => {
+        if (!isWorking) {
+            startTime = new Date();
+            isWorking = true;
+            startStopBtn.textContent = "Закончить работу";
+            setInterval(updateTimer, 1000);
+        } else {
+            isWorking = false;
+            startStopBtn.textContent = "Начать работу";
+            const endTime = new Date();
+            const log = `Работа: ${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()}`;
+            db.timeLogs.push(log);
+            saveDB();
+            const li = document.createElement("li");
+            li.textContent = log;
+            timeLog.appendChild(li);
+            document.getElementById("timer").textContent = "00:00:00";
+        }
+    });
+}
 
-    const vacationEntry = document.createElement("li");
-    vacationEntry.textContent = `${name}: ${start} - ${end}`;
-    vacationList.appendChild(vacationEntry);
+// Подача заявок (request.html)
+if (document.getElementById("requestForm")) {
+    const requestForm = document.getElementById("requestForm");
+    const requestType = document.getElementById("requestType");
+    const startDate = document.getElementById("startDate");
+    const endDate = document.getElementById("endDate");
+    const shiftStart = document.getElementById("shiftStart");
+    const shiftEnd = document.getElementById("shiftEnd");
 
-    vacationForm.reset();
-});
+    requestType.addEventListener("change", () => {
+        if (requestType.value === "shift") {
+            endDate.style.display = "none";
+            shiftStart.style.display = "block";
+            shiftEnd.style.display = "block";
+        } else {
+            endDate.style.display = "block";
+            shiftStart.style.display = "none";
+            shiftEnd.style.display = "none";
+        }
+    });
 
-// Графики работы
-const scheduleForm = document.getElementById("scheduleForm");
-const scheduleList = document.getElementById("scheduleList");
+    requestForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("employeeName").value;
+        const type = requestType.value;
+        let requestText;
 
-scheduleForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const employee = document.getElementById("shiftEmployee").value;
-    const date = document.getElementById("shiftDate").value;
-    const start = document.getElementById("shiftStart").value;
-    const end = document.getElementById("shiftEnd").value;
+        if (type === "vacation") {
+            requestText = `${name}: Отпуск с ${startDate.value} по ${endDate.value}`;
+        } else {
+            requestText = `${name}: Смена ${startDate.value}, ${shiftStart.value} - ${shiftEnd.value}`;
+        }
 
-    const scheduleEntry = document.createElement("li");
-    scheduleEntry.textContent = `${employee}: ${date}, ${start} - ${end}`;
-    scheduleList.appendChild(scheduleEntry);
+        db.requests.push(requestText);
+        saveDB();
+        document.getElementById("requestMessage").textContent = "Заявка отправлена!";
+        requestForm.reset();
+        setTimeout(() => document.getElementById("requestMessage").textContent = "", 3000);
+    });
+}
 
-    scheduleForm.reset();
-});
+// Админ-панель (admin.html)
+if (document.getElementById("loginForm")) {
+    const loginForm = document.getElementById("loginForm");
+    const adminPanel = document.getElementById("adminPanel");
+    const requestList = document.getElementById("requestList");
+    const adminTimeLog = document.getElementById("adminTimeLog");
+    const adminPass = "admin123"; // Пароль для админа
 
-// Параллакс и анимации (из прошлого ответа)
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (document.getElementById("adminPass").value === adminPass) {
+            loginForm.style.display = "none";
+            adminPanel.style.display = "block";
+
+            db.requests.forEach(req => {
+                const li = document.createElement("li");
+                li.textContent = req;
+                requestList.appendChild(li);
+            });
+
+            db.timeLogs.forEach(log => {
+                const li = document.createElement("li");
+                li.textContent = log;
+                adminTimeLog.appendChild(li);
+            });
+        } else {
+            alert("Неверный пароль!");
+        }
+    });
+}
+
+// Параллакс и анимации
 window.addEventListener("scroll", () => {
     const hero = document.querySelector(".hero");
-    let scrollPosition = window.pageYOffset;
-    hero.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+    if (hero) {
+        let scrollPosition = window.pageYOffset;
+        hero.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+    }
 });
 
 const animateOnScroll = () => {
@@ -91,4 +149,4 @@ const animateOnScroll = () => {
     elements.forEach((el) => observer.observe(el));
 };
 
-document.addEventListener("DOMContentLoaded", animateOnScroll);s
+document.addEventListener("DOMContentLoaded", animateOnScroll);
