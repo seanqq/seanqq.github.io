@@ -3,47 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeFlow - Главная</title>
+    <title>Массаж от Айрата</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="particles-js"></div>
-    <header class="main-header">
-        <h1>TimeFlow</h1>
-        <nav>
-            <a href="index.html">Главная</a>
-            <a href="request.html">Заявки</a>
-            <a href="admin.html" id="adminLink" style="display: none;">Админ</a>
-            <a href="login.html" id="loginLink">Войти</a>
-            <a href="#" id="logoutLink" style="display: none;">Выйти</a>
-        </nav>
-    </header>
+<style>
+    /* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image:url(images/massage.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    backdrop-filter: blur(15px);
+    background-position:0px 245px;
+    color: #333;
+}
 
-    <div class="hero">
-        <div class="overlay"></div>
-        <div class="hero-content">
-            <h2>TimeFlow</h2>
-            <p>Будущее учета времени</p>
-            <a href="#features" class="btn neon-btn">Начать</a>
+header {
+    background: rgba(141, 141, 141, 1);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom:2px solid black;
+}
+.contacts {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center ;
+}
+
+.header-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+nav ul {
+    display: inline-block;
+    size:30px;
+    color:rgb(255, 255, 255) ;
+    list-style:none;
+    padding: 0;
+    margin: 0;
+    justify-content: left;
+}
+
+nav ul li {
+    margin: 0 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 45px;
+  border: 1px solid black;
+  margin: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #201e1e;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+  transition: .3s;
+}
+
+nav ul li a:hover {
+    background: #c9c9c9;
+  box-shadow: 0 15px 20px rgba(102, 102, 102, 0.4);
+  color: white;
+  transform: translateY(-7px);
+}
+
+main {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-position:0px 100px;
+    margin: 20px auto;
+    margin-bottom: 100px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+.service {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.service:hover {
+    transform: scale(1.02);
+}
+
+h1, h2, h3 {
+    color: #201e1e;
+}
+
+.review{
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-position:0px 100px;
+    margin: 20px auto;
+    margin-bottom: 100px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer{
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(141, 141, 141, 1);
+  border-top:2px solid rgb(0, 0, 0);
+}
+.contactiki{
+    margin:20px;
+    text-align:rgb(255, 255, 255) center ;
+}
+.container{
+    text-align: center;
+}
+.image-container{
+    display:inline-block;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-position:0px 100px;
+    margin: 20px auto;
+    margin-bottom: 100px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.photo1{
+    background-image: url("images/1232.png");
+    background-repeat: no-repeat;
+  background-position: center;
+    background-size: cover;
+    width:400px;
+    height:400px;
+}
+.image-container2{
+    display:inline-block;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-position:0px 100px;
+    margin: 20px auto;
+    margin-bottom: 100px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.photo2{
+    background-image: url("images/1233.png");
+    background-repeat: no-repeat;
+  background-position: center;
+    background-size: cover;
+    width:400px;
+    height:400px;
+}
+.video{
+    display:flex;
+    justify-content: center;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-position:center;
+    margin: 20px auto;
+    margin-bottom: 100px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.vidos{
+    background-image: url("images/giphy.gif");
+    background-repeat: no-repeat;
+  background-position: center;
+    background-size: cover;
+    width:800px;
+    height:400px;
+}
+
+</style>
+<body>
+    <header>
+        <div class ="contact"> 
+            <h3>Вы можете связаться со мной по телефону: <strong>+7 (960) 318-5315</strong></h3>
+        </div>
+        <div class="header-content">
+            <h1>Массаж от студента медика</h1>
+        <div class="contacts">
+            <nav>
+                <ul>
+                    <li><a href= "https://www.avito.ru/lobnya/predlozheniya_uslug/massazh_klassicheskiy_3442897364?utm_campaign=native&utm_medium=item_page_ios&utm_source=soc_sharing_seller"><strong>Мой профиль Avito</strong></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
-
-    <section id="features" class="features">
-        <div class="feature-card" data-aos="zoom-in">
-            <h2>Учет времени</h2>
-            <p id="userGreeting" style="display: none;">Привет, <span id="currentUser"></span>!</p>
-            <p>Текущее время: <span id="timer">00:00:00</span></p>
-            <button id="startStopBtn" class="btn neon-btn" disabled>Начать работу</button>
-            <ul id="timeLog" class="scroll-list"></ul>
+    </header>
+    <div class="video">
+        <div class ="vidos"></div>
+    </div>
+    <main>
+        <section id="about">
+            <h1>Обо мне</h1>
+            <p style = 'font-size: 20px'><strong>Добрый день, меня зовут Айрат.<br>
+                Я студент медицинского колледжа, являюсь сертифицированным мастером классического-оздоровительного массажа💆🏻‍♀️💆🏻‍♂️<br> 📣Приглашаю вас на оздоровительный массаж, для восстановления здоровья, сил и хорошего настроения!<br>Опыт работы более 2 лет.</strong></p>
+        </section>
+        <section id="services">
+            <h2>Мои услуги</h2>
+            <div class="service">
+                <h3>Классический массаж</h3>
+                <p>Общий оздоровительный массаж <br>Длительность: 1.5 ч. <br>Включает: массаж спины, ШВЗ, ягодичной области, грудной клетки, верхних и нижних конечностей, массаж живота. <br><strong>Стоимость: 1400 руб.</strong></p>
+            </div>
+            <div class="service">
+                <h3>Массаж спины</h3>
+                <p>Классический массаж спины<br>Длительность: 45 мин. <br>Включает: шейный, грудной, поясничный, крестцово-копчиковый отделы. <br><strong>Стоимость: 700 руб.</strong></p>
+            </div>
+            <div class="service">
+                <h3>Массаж спины и рук</h3>
+                <p>Классический массаж спины и рук <br>Длительность: 1 ч.<br>Включает: шейный, грудной, поясничный, крестцово-копчиковый отделы + руки.<br><strong>Стоимость: 900 руб.</strong></p>
+            </div>
+            <div class="service">
+                <h3>Массаж спины и ног</h3>
+                <p>Классический массаж спины и ног <br>Длительность: 1 ч. 15 мин.<br>Включает: шейный, грудной, поясничный, крестцово-копчиковый отделы + ноги .<br><strong>Стоимость: 1000 руб.</strong></p>
+            </div>    
+        </section>
+        </section>
+        
+    </main>
+    <div class="container">
+        <div class="image-container">
+            <div class="photo1"></div>
+        </div>
+        <div class="image-container2">
+            <div class="photo2"></div>
+        </div>
+    </div>
+        <div class ="review">
+            <h2>Отзывы о моей работе можете посмотреть тут</h2>
+            <nav>
+                <ul>
+            <a href ="https://www.avito.ru/lobnya/predlozheniya_uslug/massazh_klassicheskiy_3442897364?utm_campaign=native&utm_medium=item_page_ios&utm_source=soc_sharing_seller"><strong>Мои Отзывы</strong></a>
+                </ul>
+            </nav>
+        </div>
+</body>
+<footer>
+    <section id = "niz">
+        <div class = "contactiki">
+            <a>Почта для связи</a>
+            <a href = "abubekerov06@list.ru">abubekerov06@list.ru<br></a>
+            <a>Телефон для связи</a>
+            <a href = "+79603185315">+7 (960) 318-5315</a>
         </div>
     </section>
-
-    <footer>
-        <p>© 2025 TimeFlow. Создано с любовью.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
-</body>
+</footer>
 </html>
